@@ -16,6 +16,7 @@ export type ResolverConfig = {
   moduleNameMapper?: Array<ModuleNameMapperConfig> | null;
   modulePaths: Array<Config.Path>;
   platforms?: Array<string>;
+  preserveSymlinks: boolean;
   resolver?: Config.Path | null;
   rootDir: Config.Path;
 };

@@ -48,6 +48,7 @@ const defaultOptions: Config.DefaultOptions = {
   noStackTrace: false,
   notify: false,
   notifyMode: 'failure-change',
+  preserveSymlinks: false,
   preset: null,
   prettierPath: 'prettier',
   projects: null,

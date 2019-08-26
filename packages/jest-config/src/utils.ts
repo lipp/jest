@@ -36,6 +36,7 @@ export const resolve = (
     replaceRootDirInPath(rootDir, filePath),
     {
       basedir: rootDir,
+      preserveSymlinks: false,
       resolver: resolver || undefined,
     },
   );
@@ -136,6 +137,7 @@ export const resolveWithPrefix = (
   const fileName = replaceRootDirInPath(rootDir, filePath);
   let module = Resolver.findNodeModule(`${prefix}${fileName}`, {
     basedir: rootDir,
+    preserveSymlinks: false,
     resolver: resolver || undefined,
   });
   if (module) {
@@ -148,6 +150,7 @@ export const resolveWithPrefix = (
 
   module = Resolver.findNodeModule(fileName, {
     basedir: rootDir,
+    preserveSymlinks: false,
     resolver: resolver || undefined,
   });
   if (module) {

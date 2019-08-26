@@ -64,6 +64,7 @@ type Options = {
   mocksPattern?: string;
   name: string;
   platforms: Array<string>;
+  preserveSymlinks: boolean;
   providesModuleNodeModules?: Array<string>;
   resetCache?: boolean;
   retainAllFiles: boolean;
@@ -89,6 +90,7 @@ type InternalOptions = {
   mocksPattern: RegExp | null;
   name: string;
   platforms: Array<string>;
+  preserveSymlinks: boolean;
   resetCache?: boolean;
   retainAllFiles: boolean;
   rootDir: string;
@@ -244,6 +246,9 @@ class HasteMap extends EventEmitter {
 
   constructor(options: Options) {
     super();
+    if (options.useWatchman && options.preserveSymlinks) {
+      throw new Error("--watchman and --preserveSymlinks don't work together");
+    }
     this._options = {
       cacheDirectory: options.cacheDirectory || tmpdir(),
       computeDependencies:
@@ -263,6 +268,7 @@ class HasteMap extends EventEmitter {
         : null,
       name: options.name,
       platforms: options.platforms,
+      preserveSymlinks: options.preserveSymlinks,
       resetCache: options.resetCache,
       retainAllFiles: options.retainAllFiles,
       rootDir: options.rootDir,
@@ -751,6 +757,7 @@ class HasteMap extends EventEmitter {
       forceNodeFilesystemAPI: options.forceNodeFilesystemAPI,
       ignore,
       mapper: options.mapper,
+      preserveSymlinks: options.preserveSymlinks,
       rootDir: options.rootDir,
       roots: options.roots,
     };

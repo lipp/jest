@@ -21,6 +21,7 @@ type FindNodeModuleConfig = {
   extensions?: Array<string>;
   moduleDirectory?: Array<string>;
   paths?: Array<Config.Path>;
+  preserveSymlinks: boolean;
   resolver?: Config.Path | null;
   rootDir?: Config.Path;
 };
@@ -67,6 +68,7 @@ class Resolver {
       moduleNameMapper: options.moduleNameMapper,
       modulePaths: options.modulePaths,
       platforms: options.platforms,
+      preserveSymlinks: options.preserveSymlinks,
       resolver: options.resolver,
       rootDir: options.rootDir,
     };
@@ -100,6 +102,7 @@ class Resolver {
         extensions: options.extensions,
         moduleDirectory: options.moduleDirectory,
         paths: paths ? (nodePaths || []).concat(paths) : nodePaths,
+        preserveSymlinks: options.preserveSymlinks,
         rootDir: options.rootDir,
       });
     } catch (e) {}
@@ -159,6 +162,7 @@ class Resolver {
         extensions,
         moduleDirectory,
         paths,
+        preserveSymlinks: this._options.preserveSymlinks,
         resolver: this._options.resolver,
         rootDir: this._options.rootDir,
       });
@@ -263,7 +267,10 @@ class Resolver {
     }
 
     const moduleDirectory = this._options.moduleDirectories;
-    const paths = nodeModulesPaths(from, {moduleDirectory});
+    const paths = nodeModulesPaths(from, {
+      moduleDirectory,
+      preserveSymlinks: false,
+    });
     if (paths[paths.length - 1] === undefined) {
       // circumvent node-resolve bug that adds `undefined` as last item.
       paths.pop();
@@ -390,6 +397,7 @@ class Resolver {
               extensions,
               moduleDirectory,
               paths,
+              preserveSymlinks: false,
               resolver,
               rootDir: this._options.rootDir,
             });

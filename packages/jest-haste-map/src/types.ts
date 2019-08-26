@@ -36,6 +36,7 @@ export type CrawlerOptions = {
   forceNodeFilesystemAPI: boolean;
   ignore: IgnoreMatcher;
   mapper?: Mapper | null;
+  preserveSymlinks: boolean;
   rootDir: string;
   roots: Array<string>;
 };

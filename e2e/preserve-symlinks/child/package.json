@@ -1,0 +1,11 @@
+{
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": false,
+    "transform": {
+      "\\.js$": [
+        "babel-jest"
+      ]
+    }
+  }
+}

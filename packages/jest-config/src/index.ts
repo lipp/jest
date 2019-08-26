@@ -185,6 +185,7 @@ const groupOptions = (
     modulePathIgnorePatterns: options.modulePathIgnorePatterns,
     modulePaths: options.modulePaths,
     name: options.name,
+    preserveSymlinks: options.preserveSymlinks,
     prettierPath: options.prettierPath,
     resetMocks: options.resetMocks,
     resetModules: options.resetModules,

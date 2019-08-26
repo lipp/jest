@@ -20,6 +20,7 @@ type ResolverOptions = {
   extensions?: Array<string>;
   moduleDirectory?: Array<string>;
   paths?: Array<Config.Path>;
+  preserveSymlinks: boolean;
   rootDir?: Config.Path;
 };
 
@@ -40,6 +41,7 @@ export default function defaultResolver(
     extensions: options.extensions,
     moduleDirectory: options.moduleDirectory,
     paths: options.paths,
+    preserveSymlinks: options.preserveSymlinks,
     rootDir: options.rootDir,
   });
 }
@@ -61,7 +63,7 @@ function resolveSync(
   if (REGEX_RELATIVE_IMPORT.test(target)) {
     // resolve relative import
     const resolveTarget = path.resolve(basedir, target);
-    const result = tryResolve(resolveTarget);
+    const result = tryResolve(resolveTarget, options.preserveSymlinks);
     if (result) {
       return result;
     }
@@ -70,10 +72,11 @@ function resolveSync(
     const dirs = nodeModulesPaths(basedir, {
       moduleDirectory: options.moduleDirectory,
       paths,
+      preserveSymlinks: false,
     });
     for (let i = 0; i < dirs.length; i++) {
       const resolveTarget = path.join(dirs[i], target);
-      const result = tryResolve(resolveTarget);
+      const result = tryResolve(resolveTarget, options.preserveSymlinks);
       if (result) {
         return result;
       }
@@ -93,13 +96,17 @@ function resolveSync(
   /*
    * contextual helper functions
    */
-  function tryResolve(name: Config.Path): Config.Path | undefined {
+  function tryResolve(
+    name: Config.Path,
+    preserveSymlinks: boolean,
+  ): Config.Path | undefined {
     const dir = path.dirname(name);
     let result;
     if (isDirectory(dir)) {
-      result = resolveAsFile(name) || resolveAsDirectory(name);
+      result =
+        resolveAsFile(name) || resolveAsDirectory(name, preserveSymlinks);
     }
-    if (result) {
+    if (result && !preserveSymlinks) {
       // Dereference symlinks to ensure we don't create a separate
       // module instance depending on how it was referenced.
       result = fs.realpathSync(result);
@@ -122,7 +129,10 @@ function resolveSync(
     return undefined;
   }
 
-  function resolveAsDirectory(name: Config.Path): Config.Path | undefined {
+  function resolveAsDirectory(
+    name: Config.Path,
+    preserveSymlinks: boolean,
+  ): Config.Path | undefined {
     if (!isDirectory(name)) {
       return undefined;
     }
@@ -136,7 +146,7 @@ function resolveSync(
 
     if (pkgmain && !isCurrentDirectory(pkgmain)) {
       const resolveTarget = path.resolve(name, pkgmain);
-      const result = tryResolve(resolveTarget);
+      const result = tryResolve(resolveTarget, preserveSymlinks);
       if (result) {
         return result;
       }

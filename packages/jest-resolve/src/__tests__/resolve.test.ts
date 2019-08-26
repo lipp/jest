@@ -77,6 +77,7 @@ describe('findNodeModule', () => {
       extensions: ['js'],
       moduleDirectory: ['node_modules'],
       paths: (nodePaths || []).concat(['/something']),
+      preserveSymlinks: undefined,
       rootDir: undefined,
     });
   });

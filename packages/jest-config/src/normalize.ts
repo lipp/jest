@@ -86,6 +86,7 @@ const setupPreset = (
     {
       basedir: options.rootDir,
       extensions: PRESET_EXTENSIONS,
+      preserveSymlinks: false,
     },
   );
 
@@ -110,6 +111,7 @@ const setupPreset = (
 
     const preset = Resolver.findNodeModule(presetPath, {
       basedir: options.rootDir,
+      preserveSymlinks: false,
     });
 
     if (preset) {
@@ -357,6 +359,7 @@ const normalizeReporters = (options: Config.InitialOptions) => {
     if (reporterPath !== DEFAULT_REPORTER_LABEL) {
       const reporter = Resolver.findNodeModule(reporterPath, {
         basedir: options.rootDir,
+        preserveSymlinks: false,
       });
       if (!reporter) {
         throw new Error(
@@ -830,6 +833,7 @@ export default function normalize(
       case 'onlyChanged':
       case 'outputFile':
       case 'passWithNoTests':
+      case 'preserveSymlinks':
       case 'replname':
       case 'reporters':
       case 'resetMocks':

@@ -244,6 +244,7 @@ class Runtime {
       mocksPattern: escapePathForRegex(path.sep + '__mocks__' + path.sep),
       name: config.name,
       platforms: config.haste.platforms || ['ios', 'android'],
+      preserveSymlinks: config.preserveSymlinks,
       providesModuleNodeModules: config.haste.providesModuleNodeModules,
       resetCache: options && options.resetCache,
       retainAllFiles: false,
@@ -268,6 +269,7 @@ class Runtime {
       moduleNameMapper: getModuleNameMapper(config),
       modulePaths: config.modulePaths,
       platforms: config.haste.platforms,
+      preserveSymlinks: config.preserveSymlinks,
       resolver: config.resolver,
       rootDir: config.rootDir,
     });

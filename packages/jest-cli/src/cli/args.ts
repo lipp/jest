@@ -434,6 +434,13 @@ export const options = {
       'Will not fail if no tests are found (for example while using `--testPathPattern`.)',
     type: 'boolean' as 'boolean',
   },
+  preserveSymlinks: {
+    default: false,
+    description:
+      'Find symlinked files and do not expand their file paths during' +
+      'module resolution',
+    type: 'boolean' as 'boolean',
+  },
   preset: {
     description: "A preset that is used as a base for Jest's configuration.",
     type: 'string' as 'string',

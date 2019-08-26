@@ -68,6 +68,7 @@ export type DefaultOptions = {
   notify: boolean;
   notifyMode: string;
   preset: string | null | undefined;
+  preserveSymlinks: boolean;
   prettierPath: string | null | undefined;
   projects: Array<string | ProjectConfig> | null | undefined;
   resetMocks: boolean;
@@ -175,6 +176,7 @@ export type InitialOptions = {
   outputFile?: Path;
   passWithNoTests?: boolean;
   preprocessorIgnorePatterns?: Array<Glob>;
+  preserveSymlinks?: boolean;
   preset?: string | null | undefined;
   prettierPath?: string | null | undefined;
   projects?: Array<Glob>;
@@ -391,6 +393,7 @@ export type ProjectConfig = {
   modulePathIgnorePatterns: Array<string>;
   modulePaths: Array<string>;
   name: string;
+  preserveSymlinks: boolean;
   prettierPath: string;
   resetMocks: boolean;
   resetModules: boolean;
@@ -470,6 +473,7 @@ export type Argv = Arguments<
     outputFile: string;
     preset: string | null | undefined;
     projects: Array<string>;
+    preserveSymlinks: boolean;
     prettierPath: string | null | undefined;
     resetMocks: boolean;
     resetModules: boolean;
